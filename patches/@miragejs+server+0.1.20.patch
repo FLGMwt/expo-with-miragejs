@@ -1,0 +1,23 @@
+diff --git a/node_modules/@miragejs/server/dist/mirage-umd.js b/node_modules/@miragejs/server/dist/mirage-umd.js
+index 6a4cfb5..c75178a 100644
+--- a/node_modules/@miragejs/server/dist/mirage-umd.js
++++ b/node_modules/@miragejs/server/dist/mirage-umd.js
+@@ -8438,9 +8438,15 @@
+    * }
+    */
+   function parseURL(url) {
+-      // TODO: something for when document isn't present... #yolo
+-      var anchor = document.createElement('a');
+-      anchor.href = url;
++      var anchor;
++      try {
++          anchor = document.createElement('a');
++          anchor.href = url;
++      } catch {
++          var URL = require('url-parse');
++          anchor = new URL(url);
++      }
++
+       if (!anchor.host) {
+           // eslint-disable-next-line no-self-assign
+           anchor.href = anchor.href; // IE: load the host and protocol
